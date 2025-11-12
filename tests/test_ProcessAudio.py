@@ -23,7 +23,7 @@ def test_ProcessAudioWithSound():
 def test_ProcessAudio(mock_lfilter, mock_resample, mock_load): #UNIT TEST
 
     #Mock values
-    fake_audio = np.ones(16000)
+    fake_audio = np.ones(44100)
     mock_load.return_value = (fake_audio, 44100)
     mock_lfilter.return_value = fake_audio * 0.5
     mock_resample.return_value = np.ones(16000) * 0.25
