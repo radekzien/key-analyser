@@ -9,10 +9,10 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from ProcessAudio import ProcessAudio
 
 def test_ProcessAudioWithSound():
-    sample_file = librosa.example("trumpet")
+    sample_file = librosa.example("trumpet") #Test with audio sample
 
     result = ProcessAudio(sample_file)
-    assert isinstance(result, np.ndarray)
+    assert isinstance(result, np.ndarray) #Test output
     assert len(result) > 0
 
 
@@ -20,8 +20,9 @@ def test_ProcessAudioWithSound():
 @patch("ProcessAudio.librosa.load")
 @patch("ProcessAudio.librosa.resample")
 @patch("ProcessAudio.signal.lfilter")
-def test_ProcessAudio(mock_lfilter, mock_resample, mock_load):
+def test_ProcessAudio(mock_lfilter, mock_resample, mock_load): #UNIT TEST
 
+    #Mock values
     fake_audio = np.ones(16000)
     mock_load.return_value = (fake_audio, 44100)
     mock_lfilter.return_value = fake_audio * 0.5
