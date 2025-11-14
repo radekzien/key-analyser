@@ -1,13 +1,6 @@
 import librosa
 from scipy import signal
 
-SampleAudio = [
-    "SampleAudio/Classicals.de - Chopin - Albumleaf, B. 151.mp3",
-    "SampleAudio/Classicals.de - Chopin - Andantino 'Spring' B. 117.mp3",
-    "SampleAudio/Classicals.de - Chopin - Etude Op. 10 no. 12 in C minor 'Revolutionary'.mp3",
-    "SampleAudio/Classicals.de - Chopin - Fantasia Impromptu Op. posth. 66.mp3"
-]
-
 def ProcessAudio(filePath):
     #Load file and convert into frequency-time series
     audio_data,sr = librosa.load(filePath)
@@ -27,6 +20,3 @@ def ProcessAudio(filePath):
     print(f"Resampled data: {audio_data_resampled.shape}")
     
     return audio_data_resampled
-
-if __name__ == '__main__':
-    ProcessAudio(SampleAudio[0])
