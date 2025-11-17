@@ -1,6 +1,5 @@
 import numpy
 
-
 def SplitToWindows(audio_data_resampled, sample_rate, window_size):
     samples_per_window = int(sample_rate * (window_size / 1000))#integer for slicing
     total_samples = len(audio_data_resampled) #Total amount of samples in data

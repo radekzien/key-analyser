@@ -9,6 +9,6 @@ SampleAudio = [
 ]
 
 if __name__ == "__main__":
-    processedAudio = ProcessAudio.ProcessAudio(SampleAudio[1])
+    processedAudio = ProcessAudio.ProcessAudio(SampleAudio[3])
     windows = ChromaExtraction.SplitToWindows(processedAudio, 16000, 100)
-    print(windows)
+    print(windows.shape)
