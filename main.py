@@ -18,7 +18,8 @@ if __name__ == "__main__":
     #Fast Fourier Transform on windows
     transformed_windows = []
     for i in windows:
-        n = arange(len(i))
-        i *= 0.54 - 0.46 * cos(2 * pi * n / (len(i) - 1)) #Hamming window functions
-        transformed_windows.append(ChromaExtraction.FastFourierTransform(i))
+        i_padded = ChromaExtraction.padWindow(i)
+        n = arange(len(i_padded))
+        i_padded *= 0.54 - 0.46 * cos(2 * pi * n / (len(i) - 1)) #Hamming window functions
+        transformed_windows.append(ChromaExtraction.FastFourierTransform(i_padded))
     print("completed FFT")

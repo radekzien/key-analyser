@@ -11,15 +11,10 @@ def SplitToWindows(audio_data_resampled, sample_rate, window_size):
 
     return windows
 
-def FastFourierTransform(window):
+def padWindow(window):
     window = array(window, dtype=complex)
     N_orig = len(window)
-
-    if N_orig == 0:
-        return array([], dtype=complex)
-    if N_orig == 1:
-        return window
-    
+        
     N = 2**int(ceil(log2(N_orig)))
 
     if N > N_orig:
@@ -27,14 +22,22 @@ def FastFourierTransform(window):
         window_padded[:N_orig] = window
     else:
         window_padded = window.copy()
+    
+    return(window_padded)
 
-    even = FastFourierTransform(window_padded[::2])
-    odd  = FastFourierTransform(window_padded[1::2])
+def FastFourierTransform(window):
+    if window.size == 0:
+        return array([], dtype=complex)
+    if window.size == 1:
+        return window
 
-    Y = zeros(len(window_padded), dtype=complex)
-    for k in range(len(window_padded)//2):
-        twiddle = exp(-2j * pi * k / len(window_padded))
+    even = FastFourierTransform(window[::2])
+    odd  = FastFourierTransform(window[1::2])
+
+    Y = zeros(len(window), dtype=complex)
+    for k in range(len(window)//2):
+        twiddle = exp(-2j * pi * k / len(window))
         Y[k] = even[k] + twiddle * odd[k]
-        Y[k + len(window_padded)//2] = even[k] - twiddle * odd[k]
+        Y[k + len(window)//2] = even[k] - twiddle * odd[k]
 
     return Y
