@@ -1,5 +1,6 @@
 import ProcessAudio
 import ChromaExtraction
+from numpy import reshape, zeros, ceil, log2, array, arange, cos, pi
 
 SampleAudio = [
     "SampleAudio/Classicals.de - Chopin - Albumleaf, B. 151.mp3",
@@ -9,6 +10,15 @@ SampleAudio = [
 ]
 
 if __name__ == "__main__":
+    #Preprocessing
     processedAudio = ProcessAudio.ProcessAudio(SampleAudio[3])
     windows = ChromaExtraction.SplitToWindows(processedAudio, 16000, 100)
     print(windows.shape)
+
+    #Fast Fourier Transform on windows
+    transformed_windows = []
+    for i in windows:
+        n = arange(len(i))
+        i *= 0.54 - 0.46 * cos(2 * pi * n / (len(i) - 1)) #Hamming window functions
+        transformed_windows.append(ChromaExtraction.FastFourierTransform(i))
+    print("completed FFT")
