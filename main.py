@@ -29,7 +29,10 @@ if __name__ == "__main__":
         freq_and_mag.append(ChromaExtraction.FrequencyAndMagnitude(i))
     print("Extracted Frequencies and Magnitudes")
 
-    chroma_vectors = []
+    chroma_bins = []
     for i in freq_and_mag:
-        chroma_vectors.append(ChromaExtraction.ChromaBins(i))
-    print("Extracted Chroma Vectors")
+        chroma_bins.append(ChromaExtraction.ChromaBins(i))
+    print("Extracted Chroma Bins")
+
+    chroma_feature = ChromaExtraction.ExtractChroma(chroma_bins)
+    print(chroma_feature)

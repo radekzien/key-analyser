@@ -68,3 +68,12 @@ def ChromaBins(mf):
         chroma[bin] = chroma[bin] + mf[n][1]
     
     return chroma
+
+def ExtractChroma(chroma_bins):
+    chroma_feature = zeros(12)
+
+    for chroma_vec in chroma_bins:
+        chroma_feature += chroma_vec
+    if len(chroma_bins) > 0:
+        chroma_feature /= len(chroma_bins)
+    return chroma_feature
