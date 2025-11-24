@@ -28,3 +28,8 @@ if __name__ == "__main__":
     for i in transformed_windows:
         freq_and_mag.append(ChromaExtraction.FrequencyAndMagnitude(i))
     print("Extracted Frequencies and Magnitudes")
+
+    chroma_vectors = []
+    for i in freq_and_mag:
+        chroma_vectors.append(ChromaExtraction.ChromaBins(i))
+    print("Extracted Chroma Vectors")

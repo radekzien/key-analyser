@@ -56,3 +56,15 @@ def FrequencyAndMagnitude(Y):
         mf.append([frequency,magnitude])
     
     return mf
+
+def ChromaBins(mf):
+    chroma = zeros(12)
+
+    for n in range(0, len(mf)):
+        if(mf[n][0] <= 0):
+            continue
+        midi = 69 + (12 * log2(mf[n][0]/440))
+        bin = round(midi) % 12
+        chroma[bin] = chroma[bin] + mf[n][1]
+    
+    return chroma
