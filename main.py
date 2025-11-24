@@ -23,3 +23,8 @@ if __name__ == "__main__":
         i_padded *= 0.54 - 0.46 * cos(2 * pi * n / (len(i) - 1)) #Hamming window functions
         transformed_windows.append(ChromaExtraction.FastFourierTransform(i_padded))
     print("completed FFT")
+
+    freq_and_mag = []
+    for i in transformed_windows:
+        freq_and_mag.append(ChromaExtraction.FrequencyAndMagnitude(i))
+    print("Extracted Frequencies and Magnitudes")

@@ -1,4 +1,4 @@
-from numpy import reshape, zeros, ceil, log2, array, arange, cos, pi
+from numpy import reshape, zeros, ceil, log2, array, cos, pi, real, imag, sqrt
 from cmath import exp
 
 def SplitToWindows(audio_data_resampled, sample_rate, window_size):
@@ -41,3 +41,18 @@ def FastFourierTransform(window):
         Y[k + len(window)//2] = even[k] - twiddle * odd[k]
 
     return Y
+
+def FrequencyAndMagnitude(Y):
+    N = Y.size
+    Upper = N//2
+    mf =[]
+    for n in range(0,Upper):
+        Re = real(Y[n])
+        Im = imag(Y[n])
+
+        magnitude = sqrt((Re**2)+(Im**2))
+        frequency = (n/1024)*16000
+
+        mf.append([frequency,magnitude])
+    
+    return mf
