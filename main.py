@@ -1,6 +1,6 @@
 import ProcessAudio
 import ChromaExtraction
-from numpy import reshape, zeros, ceil, log2, array, arange, cos, pi
+from numpy import reshape, zeros, ceil, log2, array, arange, cos, pi, fft
 
 SampleAudio = [
     "SampleAudio/Classicals.de - Chopin - Albumleaf, B. 151.mp3",
@@ -22,6 +22,7 @@ if __name__ == "__main__":
         n = arange(len(i_padded))
         i_padded *= 0.54 - 0.46 * cos(2 * pi * n / (len(i) - 1)) #Hamming window functions
         transformed_windows.append(ChromaExtraction.FastFourierTransform(i_padded))
+        #transformed_windows.append(fft.fft(i_padded, 1024))
     print("completed FFT")
 
     freq_and_mag = []

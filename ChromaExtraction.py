@@ -1,6 +1,15 @@
 from numpy import reshape, zeros, ceil, log2, array, cos, pi, real, imag, sqrt
 from cmath import exp
 
+"""
+Splits audio-time series into windows
+
+Calculates the amount amount of samples per window given the window size in ms.
+This number is used to divide the total number of samples in the data in order to obtain the number
+of windows needed
+
+The audio data is then reshaped to match the window format.
+"""
 def SplitToWindows(audio_data_resampled, sample_rate, window_size):
     samples_per_window = int(sample_rate * (window_size / 1000))#integer for slicing
     total_samples = len(audio_data_resampled) #Total amount of samples in data
@@ -11,6 +20,10 @@ def SplitToWindows(audio_data_resampled, sample_rate, window_size):
 
     return windows
 
+"""
+Pads windows so that they are a size = 2^n 
+This is to ensure the recursive step in FFT executes correctly
+"""
 def padWindow(window):
     window = array(window, dtype=complex)
     N_orig = len(window)
@@ -25,6 +38,10 @@ def padWindow(window):
     
     return(window_padded)
 
+"""
+Fast Fourier Transform:
+Performs Cooley-Tukey 2-radix FFT to produce a frequency bin on each window represented as a complex array
+"""
 def FastFourierTransform(window):
     if window.size == 0:
         return array([], dtype=complex)
@@ -42,6 +59,10 @@ def FastFourierTransform(window):
 
     return Y
 
+"""
+Calculates Frequency and Magnitude from the complex frequency bins created in FFT
+Maps each frequency to it's respetive magnitude.
+"""
 def FrequencyAndMagnitude(Y):
     N = Y.size
     Upper = N//2
@@ -57,6 +78,10 @@ def FrequencyAndMagnitude(Y):
     
     return mf
 
+"""
+Calculates the chroma bins by turning Frequencies into MIDI values and summing their magnitude to create a chroma vector
+across each window
+"""
 def ChromaBins(mf):
     chroma = zeros(12)
 
@@ -69,6 +94,9 @@ def ChromaBins(mf):
     
     return chroma
 
+"""
+Averages all Chroma Bins across each window into one global chroma feature
+"""
 def ExtractChroma(chroma_bins):
     chroma_feature = zeros(12)
 
