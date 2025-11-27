@@ -40,25 +40,27 @@ def padWindow(window):
 
 """
 Fast Fourier Transform:
-Performs Cooley-Tukey 2-radix FFT to produce a frequency bin on each window represented as a complex array
+Performs Cooley-Tukey 2-radix FFT using an iterative approach which utilisies bit reversal permutation
+to produce a frequency bin on each window represented as a complex array
 """
 def FastFourierTransform(window):
-    if window.size == 0:
-        return np.array([], dtype=complex)
-    if window.size == 1:
-        return window
+    N = window.shape[0]
 
-    N = len(window)
+    bits = int(np.log2(N))
+    rev_indices = np.array([int(f'{i:0{bits}b}'[::-1], 2) for i in range(N)])#Reverse bits
+    window_reordered = window[rev_indices]
 
-    even = FastFourierTransform(window[::2])
-    odd  = FastFourierTransform(window[1::2])
+    length = 2
+    while length <= N:
+        half = length // 2
+        twiddle = np.exp(-2j * np.pi * np.arange(half) / length)
+        for i in range(0, N, length):
+            even = window_reordered[i:i+half]
+            odd  = window_reordered[i+half:i+length] * twiddle
+            window_reordered[i:i+length] = np.concatenate([even + odd, even - odd])
+        length *= 2
 
-    Y = np.zeros(N, dtype=complex)
-    twiddle = np.exp(-2j * np.pi * np.arange(N//2) / N)
-
-    Y[:N//2] = even + twiddle * odd
-    Y[N//2:] = even - twiddle * odd
-    return Y
+    return window_reordered
 
 """
 Calculates Frequency and Magnitude from the complex frequency bins created in FFT
