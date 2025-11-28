@@ -1,5 +1,4 @@
 import numpy as np
-from cmath import exp
 
 """
 Splits audio-time series into windows
