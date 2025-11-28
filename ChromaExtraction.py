@@ -45,6 +45,10 @@ to produce a frequency bin on each window represented as a complex array
 """
 def FastFourierTransform(window):
     N = window.shape[0]
+    window_reordered = np.zeros(N, dtype=complex)
+
+    if N < 1:
+        return np.array([], dtype=complex)
 
     bits = int(np.log2(N))
     rev_indices = np.array([int(f'{i:0{bits}b}'[::-1], 2) for i in range(N)])#Reverse bits

@@ -18,7 +18,7 @@ def test_fft_single_element():
     assert_array_almost_equal(result, expected)
 
 def test_fft_real_input():
-    x = np.array([1, 2, 3, 4], dtype=float)
+    x = np.array([1, 2, 3, 4], dtype=complex)
     result = FastFourierTransform(x)
     expected = np.fft.fft(x)
     assert_array_almost_equal(result, expected)
