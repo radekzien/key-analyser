@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from ChromaExtraction import FrequencyAndMagnitude
 
+"""Correctly detects frequency of a known sine wave"""
 def test_FreqAndMag():
     fs = 16000
     N = 1024
