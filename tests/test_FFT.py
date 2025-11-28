@@ -1,11 +1,6 @@
-import os
-import sys
 import numpy as np
 from numpy.testing import assert_array_almost_equal
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from ChromaExtraction import FastFourierTransform
+from ChromaExtraction.FFT import FastFourierTransform
 
 def test_fft_empty():
     result = FastFourierTransform(np.array([]))

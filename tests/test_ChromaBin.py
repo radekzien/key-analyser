@@ -1,13 +1,8 @@
-import os
-import sys
+from ChromaExtraction.ChromaBins import ChromaBins
 import numpy as np
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from ChromaExtraction import ChromaBins
-
 """Test chroma for single note A4"""
-def test_ChromaBin():
+def test_ChromaBins():
     mf = [
         [440.0, 1.0]
     ]

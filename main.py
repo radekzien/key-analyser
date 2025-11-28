@@ -1,6 +1,13 @@
 import ProcessAudio
-import ChromaExtraction
-from numpy import reshape, zeros, ceil, log2, array, arange, cos, pi, fft
+from ChromaExtraction import (
+    ChromaBins,
+    ExtractChroma,
+    FastFourierTransform,
+    FrequencyAndMagnitude,
+    padWindow,
+    SplitToWindows
+)
+import numpy as np
 
 SampleAudio = [
     "SampleAudio/Classicals.de - Chopin - Albumleaf, B. 151.mp3",
@@ -12,28 +19,27 @@ SampleAudio = [
 if __name__ == "__main__":
     #Preprocessing
     processedAudio = ProcessAudio.ProcessAudio(SampleAudio[3])
-    windows = ChromaExtraction.SplitToWindows(processedAudio, 16000, 100)
+    windows = SplitToWindows(processedAudio, 16000, 100)
     print(windows.shape)
 
     #Fast Fourier Transform on windows
     transformed_windows = []
     for i in windows:
-        i_padded = ChromaExtraction.padWindow(i)
-        n = arange(len(i_padded))
-        i_padded *= 0.54 - 0.46 * cos(2 * pi * n / (len(i) - 1)) #Hamming window functions
-        transformed_windows.append(ChromaExtraction.FastFourierTransform(i_padded))
-        #transformed_windows.append(fft.fft(i_padded, 1024))
+        i_padded = padWindow(i)
+        n = np.arange(len(i_padded))
+        i_padded *= 0.54 - 0.46 * np.cos(2 * np.pi * n / (len(i) - 1)) #Hamming window functions
+        transformed_windows.append(FastFourierTransform(i_padded))
     print("completed FFT")
 
     freq_and_mag = []
     for i in transformed_windows:
-        freq_and_mag.append(ChromaExtraction.FrequencyAndMagnitude(i))
+        freq_and_mag.append(FrequencyAndMagnitude(i))
     print("Extracted Frequencies and Magnitudes")
 
     chroma_bins = []
     for i in freq_and_mag:
-        chroma_bins.append(ChromaExtraction.ChromaBins(i))
+        chroma_bins.append(ChromaBins(i))
     print("Extracted Chroma Bins")
 
-    chroma_feature = ChromaExtraction.ExtractChroma(chroma_bins)
+    chroma_feature = ExtractChroma(chroma_bins)
     print(chroma_feature)

@@ -1,10 +1,5 @@
-import os
-import sys
 import numpy
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from ChromaExtraction import SplitToWindows
+from ChromaExtraction.SplitToWindows import SplitToWindows
 
 def test_splitToWindows():
     fake_Data = numpy.ones(16000)

@@ -1,10 +1,5 @@
-import os
-import sys
 import numpy as np
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from ChromaExtraction import padWindow
+from ChromaExtraction.PadWindow import padWindow
 
 def test_padWindow():
     fakeWindow = np.ones(5)
