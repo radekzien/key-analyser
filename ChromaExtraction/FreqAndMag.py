@@ -13,8 +13,7 @@ def FrequencyAndMagnitude(Y):
         Im = np.imag(Y[n])
 
         magnitude = np.sqrt((Re**2)+(Im**2))
-        frequency = (n/1024)*16000
-
+        frequency = n * 16000 / N
         mf.append([frequency,magnitude])
     
     return mf
