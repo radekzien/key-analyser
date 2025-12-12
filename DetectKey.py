@@ -36,11 +36,11 @@ def cosine_sim(chroma, key):
 
 def detectKey(chroma):
     similarities = []
-    for i in own_profiles.profiles.values():
+    for i in krumhansl_profiles.profiles.values():
         similarities.append(cosine_sim(chroma, i))
 
     similarities = np.array(similarities)
 
     key_index = np.argmax(similarities)
     key = keys[key_index]
-    print(key)
+    return(key)

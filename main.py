@@ -14,7 +14,7 @@ SampleAudio = [
     "SampleAudio/Classicals.de - Chopin - Albumleaf, B. 151.mp3", #B Major
     "SampleAudio/Classicals.de - Chopin - Andantino 'Spring' B. 117.mp3",
     "SampleAudio/Classicals.de - Chopin - Etude Op. 10 no. 12 in C minor 'Revolutionary'.mp3", #C Minor
-    "SampleAudio/Classicals.de - Chopin - Fantasia Impromptu Op. posth. 66.mp3"
+    "SampleAudio/Classicals.de - Chopin - Fantasia Impromptu Op. posth. 66.mp3",
 ]
 
 if __name__ == "__main__":
@@ -44,4 +44,4 @@ if __name__ == "__main__":
 
     chroma_feature = ExtractChroma(chroma_bins)
     
-    DetectKey.detectKey(chroma_feature)
+    print(DetectKey.detectKey(chroma_feature))
