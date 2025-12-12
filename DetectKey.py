@@ -2,6 +2,7 @@ import numpy as np
 from numpy.linalg import norm
 from KeyProfiles import krumhansl_profiles, own_profiles
 
+#Index positions == index posiitons of key profiles in krumhansl/own profiles
 keys = [
     "C major",
     "C# major/Db major",
@@ -29,11 +30,17 @@ keys = [
     "B minor"
 ]
 
+#Calcualtes vector similarity between chroma and each key
 def cosine_sim(chroma, key):
     similarity = np.dot(chroma, key) / (norm(chroma) * norm(key))
 
     return similarity
 
+"""
+Goes through each of the 24 key profiles, calculating the cosine similarity between each profile
+and the chroma. Each similairty is put into an array. The index of the max value is found, and then
+this index is used to retrieve the key based on the array of key names.
+"""
 def detectKey(chroma):
     similarities = []
     for i in krumhansl_profiles.profiles.values():
