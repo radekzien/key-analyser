@@ -43,7 +43,7 @@ this index is used to retrieve the key based on the array of key names.
 """
 def detectKey(chroma):
     similarities = []
-    for i in krumhansl_profiles.profiles.values():
+    for i in own_profiles.profiles.values():
         similarities.append(cosine_sim(chroma, i))
 
     similarities = np.array(similarities)
