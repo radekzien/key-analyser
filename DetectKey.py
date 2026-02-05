@@ -1,6 +1,6 @@
 import numpy as np
 from numpy.linalg import norm
-from KeyProfiles import krumhansl_profiles, own_profiles
+from KeyProfiles import own_profiles
 
 #Index positions == index posiitons of key profiles in krumhansl/own profiles
 keys = [
