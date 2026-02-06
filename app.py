@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar
+from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
+from AnalyseKey import AnalyseKey
 
 class mainWindow(QMainWindow):
     def __init__(self):
@@ -14,6 +15,7 @@ class mainWindow(QMainWindow):
         self.setCentralWidget(centralWidget)
     #--- Layout ---
         layout = QVBoxLayout()
+        layout.setAlignment(Qt.AlignVCenter)
         centralWidget.setLayout(layout)
     
     #--- LAYOUT COMPONENTS --- 
@@ -59,10 +61,17 @@ class mainWindow(QMainWindow):
         keyButton.setFixedSize(100,50)
         keyButton.clicked.connect(self.onButtonClick)
 
+        #--- Progress Bar ---
+        self.progress = QProgressBar()
+        self.progress.setRange(0, 0)
+        self.progress.hide()
+        self.progress.setAlignment(Qt.AlignCenter)
+
     #--- ADDING COMPONENTS TO LAYOUT ---
         layout.addWidget(self.fileDial)
         layout.addWidget(keyButton, alignment=Qt.AlignCenter)
         layout.addWidget(self.keyLabel)
+        layout.addWidget(self.progress)
         layout.addWidget(altKeysTitleLabel)
         layout.addWidget(alternativeKeys)
     
@@ -71,6 +80,14 @@ class mainWindow(QMainWindow):
            self.keyLabel.setText("Upload a File.")
         else:
             self.keyLabel.setText("Analysing...")
+            self.progress.show()
+            self.worker = AnalyseWorker(self.fileDial.fileName)
+            self.worker.finished.connect(self.onAnalysisFinished)
+            self.worker.start()
+
+    def onAnalysisFinished(self, key):
+        self.keyLabel.setText(key)
+        self.progress.hide()
 
 
 
@@ -113,6 +130,18 @@ class FileDialogue(QWidget):
             self.fileLabel.setText(selected_files[0])
             self.fileName = selected_files[0]
             self.fileSelected = True
+
+#--- Worker Thread ---
+class AnalyseWorker(QThread):
+    finished = pyqtSignal(str)
+
+    def __init__(self, file_name):
+        super().__init__()
+        self.file_name = file_name
+
+    def run(self):
+        key = AnalyseKey(self.file_name)
+        self.finished.emit(key)
 
 #--- App ---
 app = QApplication([])
