@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 import os
-from main import main
+from AnalyseKey import AnalyseKey
 
 '''
 Kept this file in for marking although it has no use in the final product.
@@ -238,7 +238,7 @@ def test(audios, keys, printName):
         if not os.path.exists(wav_path):
             audio = AudioSegment.from_file(mp3_path)
             audio.export(wav_path, format="wav")
-        key = main(wav_path)
+        key = AnalyseKey(wav_path)
         print("     Expected:", keys[i])
         print("     Received: ", key)
         if key == keys[i]:

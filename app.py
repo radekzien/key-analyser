@@ -19,14 +19,14 @@ class mainWindow(QMainWindow):
     #--- LAYOUT COMPONENTS --- 
 
         #--- Key Label ---
-        keyLabel = QLabel("C major")
-        keyFont = keyLabel.font()
+        self.keyLabel = QLabel("Upload a File.")
+        keyFont = self.keyLabel.font()
         keyFont.setPointSize(30)
-        keyLabel.setFont(keyFont)
-        keyLabel.setAlignment(Qt.AlignCenter)
+        self.keyLabel.setFont(keyFont)
+        self.keyLabel.setAlignment(Qt.AlignCenter)
 
         #--- File Dialogue ---
-        fileDial = FileDialogue()
+        self.fileDial = FileDialogue()
 
         #--- Alt Keys Title Label ---
         altKeysTitleLabel = QLabel("Closely Related Keys:")
@@ -37,9 +37,9 @@ class mainWindow(QMainWindow):
         #--- Alternative keys ---
         alternativeKeys = QWidget()
         altKeysLayout = QVBoxLayout()
-        subdom = "F Major"
-        dom = "G Major"
-        relative_minor = "A Minor"
+        subdom = "IV"
+        dom = "V"
+        relative_minor = "III/vi"
 
         altKeys = QLabel(subdom +"  "+ dom +"   "+ relative_minor)
 
@@ -57,13 +57,20 @@ class mainWindow(QMainWindow):
         #--- Analyse Button ---
         keyButton = QPushButton("Analyse Key")
         keyButton.setFixedSize(100,50)
+        keyButton.clicked.connect(self.onButtonClick)
 
     #--- ADDING COMPONENTS TO LAYOUT ---
-        layout.addWidget(fileDial)
+        layout.addWidget(self.fileDial)
         layout.addWidget(keyButton, alignment=Qt.AlignCenter)
-        layout.addWidget(keyLabel)
+        layout.addWidget(self.keyLabel)
         layout.addWidget(altKeysTitleLabel)
         layout.addWidget(alternativeKeys)
+    
+    def onButtonClick(self):
+        if not self.fileDial.fileSelected:
+           self.keyLabel.setText("Upload a File.")
+        else:
+            self.keyLabel.setText("Analysing...")
 
 
 
@@ -71,6 +78,8 @@ class mainWindow(QMainWindow):
 class FileDialogue(QWidget):
     def __init__(self):
         super().__init__()
+        self.fileName = ""
+        self.fileSelected = False
 
         layout = QVBoxLayout(self)
 
@@ -102,6 +111,9 @@ class FileDialogue(QWidget):
         if file_dialog.exec():
             selected_files = file_dialog.selectedFiles()
             self.fileLabel.setText(selected_files[0])
+            self.fileName = selected_files[0]
+            self.fileSelected = True
+
 #--- App ---
 app = QApplication([])
 window = mainWindow()

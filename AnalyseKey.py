@@ -9,7 +9,7 @@ from ChromaExtraction import (
     SplitToWindows
 )
 import numpy as np
-def main(audioFile):
+def AnalyseKey(audioFile):
     #Preprocessing
     processedAudio = ProcessAudio.ProcessAudio(audioFile)
     windows = SplitToWindows(processedAudio, 16000, 750)
