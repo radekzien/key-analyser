@@ -3,7 +3,7 @@ from numpy.linalg import norm
 from KeyProfiles import own_profiles
 
 #Index positions == index posiitons of key profiles in krumhansl/own profiles
-keys = {
+musical_keys = {
     "C major" : ["F Major", "G Major", "A Minor"],
     "C# major/Db major" : ["F#/Gb Major", "Ab Major", "Bb Minor"],
     "D major" : ["G Major", "A Major", "B Minor"],
@@ -31,6 +31,8 @@ keys = {
     "B minor" : ["E Minor", "F#/Gb Major", "D Major"]
 }
 
+keys_list = list(musical_keys.keys())
+
 #Calcualtes vector similarity between chroma and each key
 def cosine_sim(chroma, key):
     similarity = np.dot(chroma, key) / (norm(chroma) * norm(key))
@@ -43,6 +45,7 @@ and the chroma. Each similairty is put into an array. The index of the max value
 this index is used to retrieve the key based on the array of key names.
 """
 def detectKey(chroma):
+    key_data = []
     similarities = []
     for i in own_profiles.profiles.values():
         similarities.append(cosine_sim(chroma, i))
@@ -50,5 +53,8 @@ def detectKey(chroma):
     similarities = np.array(similarities)
 
     key_index = np.argmax(similarities)
-    key = keys[key_index]
-    return(key)
+    key = keys_list[key_index]
+    key_data.append(key)
+    key_data = key_data + musical_keys.get(key)
+
+    return(key_data)
