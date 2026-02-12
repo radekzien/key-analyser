@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar, QHBoxLayout
 from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
 from AnalyseKey import AnalyseKey
 
@@ -39,21 +39,31 @@ class mainWindow(QMainWindow):
         #--- Alternative keys ---
         alternativeKeys = QWidget()
         altKeysLayout = QVBoxLayout()
-        subdom = "IV"
-        dom = "V"
-        relative_minor = "III/vi"
+        self.subdomLabel = QLabel("Subdominant: ")
+        self.domLabel = QLabel("Dominant: ")
+        self.relativeLabel = QLabel("Relative: ")
+        self.subdom = QLabel("IV")
+        self.dom = QLabel("V")
+        self.relative = QLabel("III/vi")
 
-        altKeys = QLabel(subdom +"  "+ dom +"   "+ relative_minor)
+        subdomLayout = QHBoxLayout()
+        subdomLayout.addWidget(self.subdomLabel)
+        subdomLayout.addWidget(self.subdom)
 
-        akFont = altKeys.font()
+        domLayout = QHBoxLayout()
+        domLayout.addWidget(self.domLabel)
+        domLayout.addWidget(self.dom)
 
-        akFont.setPointSize(10)
+        relativeLayout = QHBoxLayout()
+        relativeLayout.addWidget(self.relativeLabel)
+        relativeLayout.addWidget(self.relative)
 
-        altKeys.setFont(akFont)
+        altKeysLayout.addLayout(subdomLayout)
+        altKeysLayout.addLayout(domLayout)
+        altKeysLayout.addLayout(relativeLayout)
 
-        altKeysLayout.addWidget(altKeys)
         altKeysLayout.setAlignment(Qt.AlignCenter)
-
+        altKeysLayout.setSpacing(20)
         alternativeKeys.setLayout(altKeysLayout)
         
         #--- Analyse Button ---
@@ -80,13 +90,20 @@ class mainWindow(QMainWindow):
            self.keyLabel.setText("Upload a File.")
         else:
             self.keyLabel.setText("Analysing...")
+            self.subdom.setText("IV")
+            self.dom.setText("V")
+            self.relative.setText("III/vi")
             self.progress.show()
             self.worker = AnalyseWorker(self.fileDial.fileName)
             self.worker.finished.connect(self.onAnalysisFinished)
             self.worker.start()
 
-    def onAnalysisFinished(self, key):
-        self.keyLabel.setText(key)
+    def onAnalysisFinished(self, key_data):
+        self.keyLabel.setText(key_data[0])
+        self.subdom.setText(key_data[1])
+        self.dom.setText(key_data[2])
+        self.relative.setText(key_data[3])
+        
         self.progress.hide()
 
 
@@ -133,15 +150,15 @@ class FileDialogue(QWidget):
 
 #--- Worker Thread ---
 class AnalyseWorker(QThread):
-    finished = pyqtSignal(str)
+    finished = pyqtSignal(list)
 
     def __init__(self, file_name):
         super().__init__()
         self.file_name = file_name
 
     def run(self):
-        key = AnalyseKey(self.file_name)
-        self.finished.emit(key)
+        key_data = AnalyseKey(self.file_name)
+        self.finished.emit(key_data)
 
 #--- App ---
 app = QApplication([])
