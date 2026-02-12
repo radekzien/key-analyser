@@ -3,32 +3,33 @@ from numpy.linalg import norm
 from KeyProfiles import own_profiles
 
 #Index positions == index posiitons of key profiles in krumhansl/own profiles
-keys = [
-    "C major",
-    "C# major/Db major",
-    "D major",
-    "Eb major",
-    "E major/Fb major",
-    "F major",
-    "F# major/Gb major",
-    "G major",
-    "Ab major",
-    "A major",
-    "Bb major",
-    "B major",
-    "C minor",
-    "C# minor/Db minor",
-    "D minor",
-    "Eb minor",
-    "E minor/Fb minor",
-    "F minor",
-    "F# minor/Gb minor",
-    "G minor",
-    "Ab minor",
-    "A minor",
-    "Bb minor",
-    "B minor"
-]
+keys = {
+    "C major" : ["F Major", "G Major", "A Minor"],
+    "C# major/Db major" : ["F#/Gb Major", "Ab Major", "Bb Minor"],
+    "D major" : ["G Major", "A Major", "B Minor"],
+    "Eb major" : ["Ab Major", "Bb Major", "C Minor"],
+    "E major/Fb major" : ["A Major", "B Major", "C#/Db Minor"],
+    "F major" : ["Bb Major", "C Major", "D Minor"],
+    "F# major/Gb major" : ["B Major", "C#/Db Major", "Eb Minor"],
+    "G major" : ["C Major", "D Major", "E Minor"],
+    "Ab major" : ["C#/Db Major", "Eb Major", "F Minor"],
+    "A major" : ["D Major", "E Major", "F#/Gb Minor"],
+    "Bb major" : ["Eb Major" , "F Major", "G Minor"],
+    "B major" : ["E Major", "F#/Gb Major", "Ab Minor"],
+
+    "C minor" : ["F Minor", "G Major", "Eb Major"],
+    "C# minor/Db minor" : ["F#/Gb Minor", "Ab Major", "E Major"],
+    "D minor" : ["G Minor", "A Major", "F Major"],
+    "Eb minor" : ["Ab Minor", "Bb Major", "Gb Major"],
+    "E minor/Fb minor" : ["A Minor", "B Major", "G Major"],
+    "F minor" : ["Bb Minor", "C Major", "Ab Major"],
+    "F# minor/Gb minor" : ["B Minor", "C#/Db Major", "A Major"],
+    "G minor" : ["C Minor", "D Major", "Bb Major"],
+    "Ab minor" : ["Db Minor", "Eb Major", "Cb Major"],
+    "A minor" : ["D Minor", "E Major", "C Major"],
+    "Bb minor" : ["Eb Minor", "F Major", "Db Major"],
+    "B minor" : ["E Minor", "F#/Gb Major", "D Major"]
+}
 
 #Calcualtes vector similarity between chroma and each key
 def cosine_sim(chroma, key):
