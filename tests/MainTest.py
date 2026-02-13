@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 import os
-from AnalyseKey import AnalyseKey
+from Pipeline.AnalyseKey import AnalyseKey
 
 '''
 Kept this file in for marking although it has no use in the final product.

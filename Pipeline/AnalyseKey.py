@@ -1,5 +1,5 @@
-import ProcessAudio
-import DetectKey
+import Pipeline.ProcessAudio as ProcessAudio
+import Pipeline.DetectKey as DetectKey
 from ChromaExtraction import (
     ChromaBins,
     ExtractChroma,

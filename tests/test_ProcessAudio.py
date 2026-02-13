@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from ProcessAudio import ProcessAudio
+from Pipeline.ProcessAudio import ProcessAudio
 
 def test_ProcessAudioWithSound():
     sample_file = librosa.example("trumpet") #Test with audio sample

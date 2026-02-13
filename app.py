@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLa
 from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon
 import markdown
-from AnalyseKey import AnalyseKey
+from Pipeline.AnalyseKey import AnalyseKey
 
 class mainWindow(QMainWindow):
     def __init__(self):
@@ -86,7 +86,7 @@ class mainWindow(QMainWindow):
         self.FindOutMoreButton = QPushButton()
         self.FindOutMoreButton.setFixedSize(30,30)
         self.FindOutMoreButton.setStyleSheet("border : 0; background: transparent;")
-        self.FindOutMoreButton.setIcon(QIcon('question-mark.png'))
+        self.FindOutMoreButton.setIcon(QIcon('gui/question-mark.png'))
         self.FindOutMoreButton.setIconSize(self.FindOutMoreButton.size())
         self.FindOutMoreButton.setCursor(Qt.PointingHandCursor)
 
@@ -96,7 +96,7 @@ class mainWindow(QMainWindow):
         fomLayout = QVBoxLayout(self.FindOutMore)
 
         FOMText = QTextEdit(readOnly=True)
-        with open("help.md") as f:
+        with open("gui/help.md") as f:
             html = markdown.markdown(f.read())
         FOMText.setHtml(html)
 
