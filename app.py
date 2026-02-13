@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar, QHBoxLayout
 from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
+from PyQt5.QtGui import QIcon
 from AnalyseKey import AnalyseKey
 
 class mainWindow(QMainWindow):
@@ -77,7 +78,16 @@ class mainWindow(QMainWindow):
         self.progress.hide()
         self.progress.setAlignment(Qt.AlignCenter)
 
+        #--- Find Out More---
+        #Button
+        self.FindOutMoreButton = QPushButton()
+        self.FindOutMoreButton.setFixedSize(50,50)
+        self.FindOutMoreButton.setStyleSheet("border : 0; background: transparent;")
+        self.FindOutMoreButton.setIcon(QIcon('question-mark.png'))
+        self.FindOutMoreButton.setIconSize(self.FindOutMoreButton.size())
+
     #--- ADDING COMPONENTS TO LAYOUT ---
+        layout.addWidget(self.FindOutMoreButton, alignment=Qt.AlignRight)
         layout.addWidget(self.fileDial)
         layout.addWidget(keyButton, alignment=Qt.AlignCenter)
         layout.addWidget(self.keyLabel)
@@ -105,8 +115,6 @@ class mainWindow(QMainWindow):
         self.relative.setText(key_data[3])
         
         self.progress.hide()
-
-
 
 #--- Dialogue Window ---
 class FileDialogue(QWidget):
