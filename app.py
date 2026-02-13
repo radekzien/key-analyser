@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar, QHBoxLayout, QTextEdit, QStackedWidget
 from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon
 from AnalyseKey import AnalyseKey
@@ -12,13 +12,15 @@ class mainWindow(QMainWindow):
         self.setFixedSize(QSize(750,550))
 
     #--- Central Widget ---
-        centralWidget = QWidget(self)
-        self.setCentralWidget(centralWidget)
-    #--- Layout ---
-        layout = QVBoxLayout()
+        self.stack = QStackedWidget()
+        self.setCentralWidget(self.stack)
+
+    #-- Main Page --
+        mainPage = QWidget()
+        layout = QVBoxLayout(mainPage)
         layout.setAlignment(Qt.AlignVCenter)
-        centralWidget.setLayout(layout)
-    
+
+        self.stack.addWidget(mainPage)
     #--- LAYOUT COMPONENTS --- 
 
         #--- Key Label ---
@@ -86,6 +88,22 @@ class mainWindow(QMainWindow):
         self.FindOutMoreButton.setIcon(QIcon('question-mark.png'))
         self.FindOutMoreButton.setIconSize(self.FindOutMoreButton.size())
 
+        self.FindOutMoreButton.clicked.connect(self.OnFOMClicked)
+
+        self.FindOutMore = QWidget()
+        fomLayout = QVBoxLayout(self.FindOutMore)
+
+        FOMText = QTextEdit(readOnly=True)
+        FOMText.setText("Test Test Test")
+
+        backBtn = QPushButton("Back")
+        backBtn.clicked.connect(lambda: self.stack.setCurrentIndex(0))
+
+        fomLayout.addWidget(backBtn, alignment=Qt.AlignLeft)
+        fomLayout.addWidget(FOMText)
+
+        self.stack.addWidget(self.FindOutMore)
+
     #--- ADDING COMPONENTS TO LAYOUT ---
         layout.addWidget(self.FindOutMoreButton, alignment=Qt.AlignRight)
         layout.addWidget(self.fileDial)
@@ -115,6 +133,9 @@ class mainWindow(QMainWindow):
         self.relative.setText(key_data[3])
         
         self.progress.hide()
+
+    def OnFOMClicked(self):
+        self.stack.setCurrentIndex(1)
 
 #--- Dialogue Window ---
 class FileDialogue(QWidget):
