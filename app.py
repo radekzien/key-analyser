@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar, QHBoxLayout, QTextEdit, QStackedWidget
 from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon
+import markdown
 from AnalyseKey import AnalyseKey
 
 class mainWindow(QMainWindow):
@@ -83,10 +84,11 @@ class mainWindow(QMainWindow):
         #--- Find Out More---
         #Button
         self.FindOutMoreButton = QPushButton()
-        self.FindOutMoreButton.setFixedSize(50,50)
+        self.FindOutMoreButton.setFixedSize(30,30)
         self.FindOutMoreButton.setStyleSheet("border : 0; background: transparent;")
         self.FindOutMoreButton.setIcon(QIcon('question-mark.png'))
         self.FindOutMoreButton.setIconSize(self.FindOutMoreButton.size())
+        self.FindOutMoreButton.setCursor(Qt.PointingHandCursor)
 
         self.FindOutMoreButton.clicked.connect(self.OnFOMClicked)
 
@@ -94,7 +96,9 @@ class mainWindow(QMainWindow):
         fomLayout = QVBoxLayout(self.FindOutMore)
 
         FOMText = QTextEdit(readOnly=True)
-        FOMText.setText("Test Test Test")
+        with open("help.md") as f:
+            html = markdown.markdown(f.read())
+        FOMText.setHtml(html)
 
         backBtn = QPushButton("Back")
         backBtn.clicked.connect(lambda: self.stack.setCurrentIndex(0))
