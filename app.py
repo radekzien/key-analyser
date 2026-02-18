@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QPushButton, QLabel, QVBoxLayout, QFileDialog, QProgressBar, QHBoxLayout, QTextEdit, QStackedWidget
 from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QFont
 import markdown
 from Pipeline.AnalyseKey import AnalyseKey
 
@@ -10,7 +10,7 @@ class mainWindow(QMainWindow):
 
     #--- Window ---
         self.setWindowTitle("Key Analyser")
-        self.setFixedSize(QSize(750,600))
+        self.setFixedSize(QSize(800,700))
 
     #--- Central Widget ---
         self.stack = QStackedWidget()
@@ -120,8 +120,26 @@ class mainWindow(QMainWindow):
 
         self.stack.addWidget(self.FindOutMore)
 
+    #--- HEADER ---
+        header = QWidget()
+        headerLayout = QHBoxLayout()
+
+        #Header components
+        titleLabel = QLabel("Key Analyser")
+        titleFont = titleLabel.font()
+        titleFont.setBold(True)
+        titleFont.setPointSize(25)
+        titleFont.setLetterSpacing(QFont.AbsoluteSpacing, 5)
+        titleLabel.setFont(titleFont)
+
+        headerLayout.addWidget(titleLabel, alignment=Qt.AlignLeft)
+        headerLayout.addWidget(self.FindOutMoreButton, alignment=Qt.AlignRight)
+
+        header.setLayout(headerLayout)
+
+
     #--- ADDING COMPONENTS TO LAYOUT ---
-        layout.addWidget(self.FindOutMoreButton, alignment=Qt.AlignRight)
+        layout.addWidget(header)
         layout.addWidget(self.fileDial)
         layout.addWidget(keyButton, alignment=Qt.AlignCenter)
         layout.addWidget(keyLabelWidget)
