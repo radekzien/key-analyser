@@ -10,7 +10,7 @@ class mainWindow(QMainWindow):
 
     #--- Window ---
         self.setWindowTitle("Key Analyser")
-        self.setFixedSize(QSize(750,550))
+        self.setFixedSize(QSize(750,600))
 
     #--- Central Widget ---
         self.stack = QStackedWidget()
@@ -25,11 +25,23 @@ class mainWindow(QMainWindow):
     #--- LAYOUT COMPONENTS --- 
 
         #--- Key Label ---
+        keyLabelWidget = QWidget()
+        keyLabelLayout = QVBoxLayout()
+        keyLabelLayout.setAlignment(Qt.AlignCenter)
         self.keyLabel = QLabel("Upload a File.")
         keyFont = self.keyLabel.font()
         keyFont.setPointSize(30)
         self.keyLabel.setFont(keyFont)
         self.keyLabel.setAlignment(Qt.AlignCenter)
+        self.keyLabel.setStyleSheet("""
+            QLabel {
+                border: 3px solid black;
+                padding: 20px
+            }
+        """)
+        keyLabelLayout.addWidget(self.keyLabel)
+        keyLabelLayout.addStretch()
+        keyLabelWidget.setLayout(keyLabelLayout)
 
         #--- File Dialogue ---
         self.fileDial = FileDialogue()
@@ -112,7 +124,7 @@ class mainWindow(QMainWindow):
         layout.addWidget(self.FindOutMoreButton, alignment=Qt.AlignRight)
         layout.addWidget(self.fileDial)
         layout.addWidget(keyButton, alignment=Qt.AlignCenter)
-        layout.addWidget(self.keyLabel)
+        layout.addWidget(keyLabelWidget)
         layout.addWidget(self.progress)
         layout.addWidget(altKeysTitleLabel)
         layout.addWidget(alternativeKeys)
@@ -150,6 +162,10 @@ class FileDialogue(QWidget):
 
         layout = QVBoxLayout(self)
 
+        instructionLabel = QLabel("Upload your file (.wav .mp3)")
+        instructionFont = instructionLabel.font()
+        instructionFont.setBold(True)
+        instructionLabel.setFont(instructionFont)
         self.fileLabel = QLabel("No File Selected")
         self.fileLabel.setStyleSheet("""
             QLabel {
@@ -161,6 +177,7 @@ class FileDialogue(QWidget):
         self.button.clicked.connect(self.openFileDialog)
         self.button.setFixedSize(100,50)
 
+        layout.addWidget(instructionLabel)
         layout.addWidget(self.fileLabel)
         layout.addWidget(self.button)
 
