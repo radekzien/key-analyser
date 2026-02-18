@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from DetectKey import detectKey
+from Pipeline.DetectKey import detectKey
 from KeyProfiles import krumhansl_profiles
 
 def test_detectKey():

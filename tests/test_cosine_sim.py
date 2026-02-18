@@ -6,7 +6,7 @@ import pytest
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from DetectKey import cosine_sim
+from Pipeline.DetectKey import cosine_sim
 
 def test_cosine():
     a = np.array([1, 2, 3])
