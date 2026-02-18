@@ -84,7 +84,11 @@ class mainWindow(QMainWindow):
         
         #--- Analyse Button ---
         keyButton = QPushButton("Analyse Key")
-        keyButton.setFixedSize(100,50)
+        keyButtonFont = keyButton.font()
+        keyButtonFont.setBold(True)
+        keyButtonFont.setPointSize(10)
+        keyButton.setFont(keyButtonFont)
+        keyButton.setFixedSize(150,75)
         keyButton.clicked.connect(self.onButtonClick)
 
         #--- Progress Bar ---
@@ -109,13 +113,12 @@ class mainWindow(QMainWindow):
 
         FOMText = QTextEdit(readOnly=True)
         with open("gui/help.md") as f:
-            html = markdown.markdown(f.read())
-        FOMText.setHtml(html)
+            FOMText.setMarkdown(f.read())
 
         backBtn = QPushButton("Back")
         backBtn.clicked.connect(lambda: self.stack.setCurrentIndex(0))
 
-        fomLayout.addWidget(backBtn, alignment=Qt.AlignLeft)
+        fomLayout.addWidget(backBtn, alignment=Qt.AlignRight)
         fomLayout.addWidget(FOMText)
 
         self.stack.addWidget(self.FindOutMore)
